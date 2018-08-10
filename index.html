@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      #central{
+        width: 400px;
+        height: 400px;
+        border: 2px solid rgba(0,0,2,0.7);
+        align-items: center;
+      }
+      #dvmain{
+        width: 182px;
+        height: 185px;
+        position: relative;
+        left: 100px;
+        display: table;
+        align: center;
+        border: none;
+      }
+      .btgame{
+        width: 60px;
+        height: 60px;
+        font-size: 58px;
+        background-color: #fff;
+        }
+       #btgame0{
+          border-right: 3px solid rgba(0,0,0,1);
+          border-bottom: 3px solid rgba(0,0,0,1);
+          border-top: none;
+          border-left: none;
+        }
+      #btgame1{
+        border-right: 3px solid rgba(0,0,0,1);
+        border-bottom: 3px solid rgba(0,0,0,1);
+        border-top: none;
+        border-left: 3px solid rgba(0,0,0,1);
+         }
+      #btgame2{
+        border-right: none;
+        border-bottom: 3px solid rgba(0,0,0,1);
+        border-top: none;
+        border-left: 3px solid rgba(0,0,0,1);
+          }
+      #btgame3{
+        border-right: 3px solid rgba(0,0,0,1);
+        border-bottom: 3px solid rgba(0,0,0,1);
+        border-top: 3px solid rgba(0,0,0,1);
+        border-left: none;
+           }
+      #btgame4{
+        border-right: 3px solid rgba(0,0,0,1);
+        border-bottom: 3px solid rgba(0,0,0,1);
+        border-top: 3px solid rgba(0,0,0,1);
+        border-left: 3px solid rgba(0,0,0,1);
+            }
+      #btgame5{
+        border-right: none;
+        border-bottom: 3px solid rgba(0,0,0,1);
+        border-top: 3px solid rgba(0,0,0,1);
+        border-left: 3px solid rgba(0,0,0,1);
+             }
+    #btgame6{
+         border-right: 3px solid rgba(0,0,0,1);
+         border-bottom: none;
+         border-top: 3px solid rgba(0,0,0,1);
+         border-left: none;
+            }
+    #btgame7{
+        border-right: 3px solid rgba(0,0,0,1);
+        border-bottom: none;
+        border-top: 3px solid rgba(0,0,0,1);
+        border-left: 3px solid rgba(0,0,0,1);
+        }
+    #btgame8{
+      border-right: none;
+      border-bottom: none;
+      border-top: 3px solid rgba(0,0,0,1);
+      border-left: 3px solid rgba(0,0,0,1);
+               }
+    .text{
+          left: 120px;
+          position: relative;
+          font-size: 25px;
+          font-style: oblique;
+        }
+
+    </style>
+
+    <script>
+      var turn = 0
+      var pt = [0,0,0,0,0,0,0,0,0]
+      var scoreP1 = 0;
+      var scoreP2 = 0;
+      var time;
+      var jogando;
+
+      function position(a){
+        var obj = document.getElementById('btgame'+a);
+        var obj2 = document.getElementById('turn');
+
+        turn++;
+
+        if(turn%2 != 0 && jogando == 1){
+        obj.value = "X";
+        obj2.innerHTML = "Vez de O"
+        pt[a] = 1;
+      }else if(turn%2 != 0 && jogando == 2){
+        obj.value = "X";
+        obj2.innerHTML = "Vez de O"
+        pt[a] = 1;
+        setTimeout(check,100);
+        sorteio();
+      }else if(turn%2 == 0 && jogando == 1){
+        obj.value = "O";
+        obj2.innerHTML = "Vez de X"
+        pt[a] = 2;
+      }
+
+      obj.setAttribute("disabled", "true");
+      setTimeout(check,100);
+      }
+
+      function check(){
+        if (((pt[0]==1)&&(pt[1]==1)&&(pt[2]==1)) || ((pt[3]==1)&&(pt[4]==1)&&(pt[5]==1)) || ((pt[6]==1)&&(pt[7]==1)&&(pt[8]==1))
+        || ((pt[0]==1)&&(pt[3]==1)&&(pt[6]==1))  || ((pt[1]==1)&&(pt[4]==1)&&(pt[7]==1)) || ((pt[2]==1)&&(pt[5]==1)&&(pt[8]==1))
+        || ((pt[0]==1)&&(pt[4]==1)&&(pt[8]==1))  || ((pt[2]==1)&&(pt[4]==1)&&(pt[6]==1))) {
+          alert("JOGADOR 1 GANHOU");
+          scoreP1++;
+          reset();
+        } else if(((pt[0]==2)&&(pt[1]==2)&&(pt[2]==2)) || ((pt[3]==2)&&(pt[4]==2)&&(pt[5]==2))  || ((pt[6]==2)&&(pt[7]==2)&&(pt[8]==2))
+                  || ((pt[0]==2)&&(pt[3]==2)&&(pt[6]==2))  || ((pt[1]==2)&&(pt[4]==2)&&(pt[7]==2))  || ((pt[2]==2)&&(pt[5]==2)&&(pt[8]==2))
+                  || ((pt[0]==2)&&(pt[4]==2)&&(pt[8]==2))  || ((pt[2]==2)&&(pt[4]==2)&&(pt[6]==2))){
+
+          if(jogando == 1){
+            alert("JOGADOR 2 GANHOU");
+          } else { alert("MAQUINA GANHOU");}
+          scoreP2++;
+          reset();
+        }else if(turn == pt.length){
+          alert("Empate!");
+          reset()
+        }
+      }
+
+      function reset(){
+
+          for (var i = 0; i < pt.length; i++) {
+            pt[i] = 0;
+            var objt = document.getElementById('btgame'+i);
+            objt.removeAttribute("disabled");
+            objt.value = "";
+          }
+          turn = 0;
+          var score1 = document.getElementById('p1').innerHTML = "Player X: "+scoreP1;
+          var score2 = document.getElementById('p2').innerHTML = "Player O: "+scoreP2;
+          var placar = document.getElementById('turn').innerHTML = "Jogo da Velha";
+          }
+
+      function sorteio(){
+        var p  = Math.round(Math.random()*8);
+        var obj = document.getElementById('btgame'+p);
+        var obj2 = document.getElementById('turn');
+        var aux = 0;
+
+      for (var i = 0; i < pt.length; i++) {
+        if(pt[i] != 0){
+          aux++
+        }
+      }
+      if(aux!=9){
+      if(pt[p] == 0 && jogando == 2){
+        check();
+        obj.value = "O";
+        obj2.innerHTML = "Vez de X"
+        pt[p] = 2;
+
+        console.log(p)
+        turn++;
+        obj.setAttribute("disabled", "true");
+      }else {
+        sorteio();
+      }
+    }else
+      setTimeout(check,100);
+  }
+
+  function inicia(){
+    jogando = prompt("Digite 1 - Vs.PLAYER , 2 - Vs.COM ");
+  }
+
+  window.addEventListener("load",inicia);
+
+    </script>
+  </head>
+  <body>
+    <div id="central">
+      <p id="turn" class="text">Jogo da Velha!</p>
+      <div id="dvmain">
+        <input type="button" id="btgame0" class="btgame" value="" onclick="position(0)">
+        <input type="button" id="btgame1" class="btgame" value="" onclick="position(1)">
+        <input type="button" id="btgame2" class="btgame" value="" onclick="position(2)">
+        <input type="button" id="btgame3" class="btgame" value="" onclick="position(3)">
+        <input type="button" id="btgame4" class="btgame" value="" onclick="position(4)">
+        <input type="button" id="btgame5" class="btgame" value="" onclick="position(5)">
+        <input type="button" id="btgame6" class="btgame" value="" onclick="position(6)">
+        <input type="button" id="btgame7" class="btgame" value="" onclick="position(7)">
+        <input type="button" id="btgame8" class="btgame" value="" onclick="position(8)">
+      </div>
+      <div>
+        <p id="p1" class="text">Player X: </p>
+        <p id="p2" class="text">Player O: </p>
+      </div>
+    </div>
+  </body>
+</html>
